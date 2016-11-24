@@ -9,25 +9,56 @@ use yii\helpers\Html;
 use yii\widgets\InputWidget;
 use dkhlystov\grid\assets\ArrayInputAsset;
 
+/**
+ * Widget for array input field
+ */
 class ArrayInput extends InputWidget
 {
 
+	/**
+	 * @var string the class of the every row in input array
+	 */
 	public $itemClass;
 
+	/**
+	 * @var string[]|array[] array of attributes or array of columns configs
+	 * @see [[dkhlystov\grid\TextInputColumn]]
+	 */
 	public $columns;
 
+	/**
+	 * @var array HTML options for table
+	 */
 	public $tableOptions = ['class' => 'table table-condensed'];
 
+	/**
+	 * @var array HTML options for add button
+	 */
 	public $addButtonOptions = ['class' => 'btn btn-default'];
 
+	/**
+	 * @var string label for add button
+	 */
 	public $addLabel = 'Add';
 
+	/**
+	 * @var string label for remove link
+	 */
 	public $removeLabel = 'Remove';
 
+	/**
+	 * @var array models with empty template
+	 */
 	private $_items;
 
+	/**
+	 * @var array prepared columns with actions column
+	 */
 	private $_columns;
 
+	/**
+	 * @inheritdoc
+	 */
 	public function init()
 	{
 		parent::init();
@@ -41,6 +72,9 @@ class ArrayInput extends InputWidget
 		$this->registerClientScript();
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function run()
 	{
 		$this->prepareItems();
@@ -68,11 +102,19 @@ class ArrayInput extends InputWidget
 		]);
 	}
 
+	/**
+	 * Register CSS classes and js
+	 * @return void
+	 */
 	private function registerClientScript()
 	{
 		ArrayInputAsset::register($this->view);
 	}
 
+	/**
+	 * Prepares items for render in table
+	 * @return void
+	 */
 	private function prepareItems()
 	{
 		$attribute = $this->attribute;
@@ -86,6 +128,10 @@ class ArrayInput extends InputWidget
 		$this->_items = $items;
 	}
 
+	/**
+	 * Prepares columns for table
+	 * @return void
+	 */
 	private function prepareColumns()
 	{
 		$basename = Html::getInputName($this->model, $this->attribute);
