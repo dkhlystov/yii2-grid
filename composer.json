@@ -1,6 +1,6 @@
 {
     "name": "dkhlystov/yii2-activecolumn",
-    "description": "Translit helper for Yii 2 framework",
+    "description": "Active columns for Yii 2 framework",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","activecolumn"],
     "license": "BSD-3-Clause",

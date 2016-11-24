@@ -1,0 +1,9 @@
+.array-input table {
+	margin-bottom: 5px;
+}
+.array-input tr {
+	border-bottom: 1px solid #ddd;
+}
+.array-input td:last-child {
+	vertical-align: middle;
+}
