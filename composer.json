@@ -1,8 +1,8 @@
 {
-    "name": "dkhlystov/yii2-activecolumn",
-    "description": "Active columns for Yii 2 framework",
+    "name": "dkhlystov/yii2-grid",
+    "description": "Active columns and array input widget for Yii 2 framework",
     "type": "yii2-extension",
-    "keywords": ["yii2","extension","activecolumn"],
+    "keywords": ["yii2","extension","array input","input column"],
     "license": "BSD-3-Clause",
     "authors": [
         {
