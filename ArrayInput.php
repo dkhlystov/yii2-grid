@@ -89,6 +89,8 @@ class ArrayInput extends InputWidget
 			'pagination' => false,
 		]);
 
+		echo Html::activeHiddenInput($this->model, $this->attribute, ['value' => '']);
+
 		echo GridView::widget([
 			'layout' => "{items}\n{summary}",
 			'tableOptions' => $this->tableOptions,
