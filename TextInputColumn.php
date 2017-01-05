@@ -75,7 +75,7 @@ class TextInputColumn extends Column
 	 * @param int $index the zero-based index of the data item among the item array returned by [[GridView::dataProvider]].
 	 * @return string
 	 */
-	public function getInputName($model, $index)
+	public function getInputName($model, $index, $attribute = null)
 	{
 		if ($this->basename === null) {
 			$name = $model->formName();
@@ -83,7 +83,10 @@ class TextInputColumn extends Column
 			$name = $this->basename;
 		}
 
-		return $name . "[{$index}][{$this->attribute}]";
+		if ($attribute === null)
+			$attribute = $this->attribute;
+
+		return $name . "[{$index}][{$attribute}]";
 	}
 
 	/**

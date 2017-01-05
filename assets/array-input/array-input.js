@@ -16,7 +16,7 @@ $(function() {
 
 	function itemAdd($table)
 	{
-		var $row = $table.find('tr:first').clone();
+		var $row = $($table.parent().data('arrayInputTemplate'));
 
 		//index
 		var idx = -1;

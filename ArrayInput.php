@@ -81,28 +81,31 @@ class ArrayInput extends InputWidget
 		$this->prepareItems();
 		$this->prepareColumns();
 
-		$options = $this->options;
-		Html::addCssClass($options, 'array-input');
-
 		$dataProvider = new ArrayDataProvider([
 			'allModels' => $this->_items,
 			'pagination' => false,
 		]);
 
-		echo Html::activeHiddenInput($this->model, $this->attribute, ['value' => '']);
+		$hidden = Html::activeHiddenInput($this->model, $this->attribute, ['value' => '']);
+		$button = Html::button($this->addLabel, $this->addButtonOptions);
 
-		echo GridView::widget([
-			'layout' => "{items}\n{summary}",
+		$grid = GridView::begin([
+			'layout' => $hidden . "{items}" . $button,
 			'tableOptions' => $this->tableOptions,
-			'options' => $options,
-			'summary' => Html::button($this->addLabel, $this->addButtonOptions),
 			'dataProvider' => $dataProvider,
 			'showHeader' => false,
-			'rowOptions' => function($model, $key, $index, $grid) {
-				return $index == 0 ? ['class' => 'hidden'] : [];
-			},
 			'columns' => $this->_columns,
 		]);
+
+		$options = $this->options;
+		Html::addCssClass($options, 'array-input');
+
+		$class = $this->itemClass;
+		$options['data-array-input-template'] = $grid->renderTableRow(new $class, 0, 0);
+
+		$grid->options = $options;
+
+		GridView::end();
 	}
 
 	/**
@@ -125,9 +128,6 @@ class ArrayInput extends InputWidget
 		if (!is_array($items))
 			$items = [];
 
-		$class = $this->itemClass;
-		$items = array_merge([new $class], $items);
-
 		$this->_items = $items;
 	}
 
@@ -147,11 +147,6 @@ class ArrayInput extends InputWidget
 			$columns[] = array_merge([
 				'class' => isset($column['items']) ? 'dkhlystov\grid\DropdownInputColumn' : 'dkhlystov\grid\TextInputColumn',
 				'basename' => $basename,
-				'inputOptions' => function($model, $key, $index, $column) {
-					return [
-						'disabled' => $index == 0,
-					];
-				}
 			], $column);
 		}
 
