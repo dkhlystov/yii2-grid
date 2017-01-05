@@ -23,6 +23,7 @@ class ArrayInput extends InputWidget
 	/**
 	 * @var string[]|array[] array of attributes or array of columns configs
 	 * @see [[dkhlystov\grid\TextInputColumn]]
+	 * @see [[yii\grid\GridView::columns]]
 	 */
 	public $columns;
 
@@ -142,8 +143,7 @@ class ArrayInput extends InputWidget
 				$column = ['attribute' => $column];
 
 			$columns[] = array_merge([
-				'class' => 'dkhlystov\grid\TextInputColumn',
-				'attribute' => 'description',
+				'class' => isset($column['items']) ? 'dkhlystov\grid\DropdownInputColumn' : 'dkhlystov\grid\TextInputColumn',
 				'basename' => $basename,
 				'inputOptions' => function($model, $key, $index, $column) {
 					return [
