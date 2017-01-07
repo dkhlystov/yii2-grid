@@ -48,6 +48,11 @@ class ArrayInput extends InputWidget
 	public $removeLabel = 'Remove';
 
 	/**
+	 * @var string|null
+	 */
+	public $readOnlyAttribute;
+
+	/**
 	 * @var array models with empty template
 	 */
 	private $_items;
@@ -138,16 +143,22 @@ class ArrayInput extends InputWidget
 	private function prepareColumns()
 	{
 		$basename = Html::getInputName($this->model, $this->attribute);
+		$readOnlyAttribute = $this->readOnlyAttribute;
 
 		$columns = [];
 		foreach ($this->columns as $column) {
 			if (is_string($column))
 				$column = ['attribute' => $column];
 
-			$columns[] = array_merge([
-				'class' => isset($column['items']) ? 'dkhlystov\grid\DropdownInputColumn' : 'dkhlystov\grid\TextInputColumn',
-				'basename' => $basename,
-			], $column);
+			if (empty($column['class'])) {
+				$column = array_merge([
+					'class' => isset($column['items']) ? 'dkhlystov\grid\DropdownInputColumn' : 'dkhlystov\grid\TextInputColumn',
+					'basename' => $basename,
+					'readOnlyAttribute' => $readOnlyAttribute,
+				], $column);
+			}
+
+			$columns[] = $column;
 		}
 
 		$columns[] = [
@@ -155,7 +166,14 @@ class ArrayInput extends InputWidget
 			'options' => ['style' => 'width: 25px;'],
 			'template' => '{remove}',
 			'buttons' => [
-				'remove' => function($url, $model, $key) {
+				'remove' => function($url, $model, $key) use ($readOnlyAttribute) {
+					$readOnly = false;
+					if ($readOnlyAttribute !== null)
+						$readOnly = $model->$readOnlyAttribute;
+
+					if ($readOnly)
+						return '';
+
 					return Html::a('<span class="glyphicon glyphicon-remove"></span>', '#', [
 						'class' => 'item-remove',
 						'title' => $this->removeLabel,

@@ -29,6 +29,11 @@ class TextInputColumn extends Column
 	public $inputOptions = [];
 
 	/**
+	 * @var string|null check that item is read-only
+	 */
+	public $readOnlyAttribute;
+
+	/**
 	 * @inheritdoc
 	 */
 	public function init()
@@ -65,6 +70,9 @@ class TextInputColumn extends Column
 
 		if (!array_key_exists('placeholder', $options))
 			$options['placeholder'] = $model->getAttributeLabel($attribute);
+
+		if (($readOnlyAttribute = $this->readOnlyAttribute) !== null && $model->$readOnlyAttribute)
+			$options['disabled'] = true;
 
 		return Html::textInput($name, $value, $options);
 	}

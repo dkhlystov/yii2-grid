@@ -52,6 +52,9 @@ class DropdownInputColumn extends TextInputColumn
 		if (!array_key_exists('placeholder', $options))
 			$options['placeholder'] = $model->getAttributeLabel($attribute);
 
+		if (($readOnlyAttribute = $this->readOnlyAttribute) !== null && $model->$readOnlyAttribute)
+			$options['disabled'] = true;
+
 		return Html::dropDownList($name, $value, $this->items, $options);
 	}
 
