@@ -1,0 +1,4 @@
+.grid-view-items {
+	max-width: 100%;
+	overflow-x: auto;
+}
