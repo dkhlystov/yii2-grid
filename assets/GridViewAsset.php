@@ -7,12 +7,14 @@ use yii\web\AssetBundle;
 class GridViewAsset extends AssetBundle
 {
 
-	public $css = ['gridview.css'];
+    public $css = [
+        'gridview' . (YII_DEBUG ? '' : '.min') . '.css',
+    ];
 
-	public function init()
-	{
-		parent::init();
-		$this->sourcePath = __DIR__ . '/grid-view';
-	}
+    public function init()
+    {
+        parent::init();
+        $this->sourcePath = __DIR__ . '/grid-view';
+    }
 
 }
