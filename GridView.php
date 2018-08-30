@@ -11,21 +11,21 @@ use dkhlystov\grid\assets\GridViewAsset;
 class GridView extends \yii\grid\GridView
 {
 
-	/**
-	 * @inheritdoc
-	 */
-	public function init()
-	{
-		parent::init();
-		GridViewAsset::register($this->view);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        GridViewAsset::register($this->view);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function renderItems()
-	{
-		return Html::tag('div', parent::renderItems(), ['class' => 'grid-view-items']);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function renderItems()
+    {
+        return Html::tag('div', parent::renderItems(), ['class' => 'grid-view-items']);
+    }
 
 }
