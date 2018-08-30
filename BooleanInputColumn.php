@@ -35,12 +35,11 @@ class BooleanInputColumn extends TextInputColumn
             $options = $this->inputOptions;
         }
 
-        if (!array_key_exists('class', $options)) {
-            // $options['class'] = 'form-control';
-        }
-
         if (!array_key_exists('label', $options)) {
             $options['label'] = $model->getAttributeLabel($attribute);
+            if (!array_key_exists('labelOptions', $options)) {
+                $options['labelOptions'] = ['class' => 'checkbox'];
+            }
         }
 
         if (($readOnlyAttribute = $this->readOnlyAttribute) !== null && $model->$readOnlyAttribute) {
