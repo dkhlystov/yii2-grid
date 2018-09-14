@@ -3,8 +3,10 @@
 namespace dkhlystov\grid;
 
 use Closure;
+use yii\base\Model;
 use yii\base\InvalidConfigException;
 use yii\grid\Column;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /**
@@ -22,6 +24,11 @@ class TextInputColumn extends Column
      * @var string then base name of input. If not specified, the result of [[\yii\base\Model::formName()]] will be used.
      */
     public $basename;
+
+    /**
+     * @var string attribute label
+     */
+    public $label;
 
     /**
      * @var array|\Closure the HTML attributes for the input tag.
@@ -58,7 +65,7 @@ class TextInputColumn extends Column
 
         $name = $this->getInputName($model, $index);
 
-        $value = $model->$attribute;
+        $value = ArrayHelper::getValue($model, $attribute);
 
         if ($this->inputOptions instanceof Closure) {
             $options = call_user_func($this->inputOptions, $model, $key, $index, $this);
@@ -71,10 +78,10 @@ class TextInputColumn extends Column
         }
 
         if (!array_key_exists('placeholder', $options)) {
-            $options['placeholder'] = $model->getAttributeLabel($attribute);
+            $options['placeholder'] = $this->label === null ? $model->getAttributeLabel($attribute) : $this->label;
         }
 
-        if (($readOnlyAttribute = $this->readOnlyAttribute) !== null && $model->$readOnlyAttribute) {
+        if (($readOnlyAttribute = $this->readOnlyAttribute) !== null && ArrayHelper::getValue($model, $readOnlyAttribute)) {
             $options['disabled'] = true;
         }
 
@@ -113,10 +120,12 @@ class TextInputColumn extends Column
             $options = $this->contentOptions;
         }
 
-        $error = $model->getFirstError($this->attribute);
-        if ($error !== null) {
-            $options['title'] = $error;
-            Html::addCssClass($options, 'has-error');
+        if ($model instanceof Model) {
+            $error = $model->getFirstError($this->attribute);
+            if ($error !== null) {
+                $options['title'] = $error;
+                Html::addCssClass($options, 'has-error');
+            }
         }
 
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);

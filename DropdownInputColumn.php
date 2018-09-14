@@ -39,7 +39,7 @@ class DropdownInputColumn extends TextInputColumn
 
         $name = $this->getInputName($model, $index);
 
-        $value = $model->$attribute;
+        $value = ArrayHelper::getValue($model, $attribute);
 
         if ($this->inputOptions instanceof Closure) {
             $options = call_user_func($this->inputOptions, $model, $key, $index, $this);
@@ -55,7 +55,7 @@ class DropdownInputColumn extends TextInputColumn
             $options['placeholder'] = $model->getAttributeLabel($attribute);
         }
 
-        if (($readOnlyAttribute = $this->readOnlyAttribute) !== null && $model->$readOnlyAttribute) {
+        if (($readOnlyAttribute = $this->readOnlyAttribute) !== null && ArrayHelper::getValue($model, $readOnlyAttribute)) {
             $options['disabled'] = true;
         }
 
