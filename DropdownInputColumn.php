@@ -4,6 +4,7 @@ namespace dkhlystov\grid;
 
 use Closure;
 use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /**
