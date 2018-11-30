@@ -21,7 +21,7 @@ class TextInputColumn extends Column
     public $attribute;
 
     /**
-     * @var string then base name of input. If not specified, the result of [[\yii\base\Model::formName()]] will be used.
+     * @var string then base name of input. If not specified, the result of [[\yii\base\Model::formName()]] will be used
      */
     public $basename;
 
@@ -31,7 +31,7 @@ class TextInputColumn extends Column
     public $label;
 
     /**
-     * @var array|\Closure the HTML attributes for the input tag.
+     * @var array|Closure the HTML attributes for the input tag
      */
     public $inputOptions = [];
 
@@ -39,6 +39,11 @@ class TextInputColumn extends Column
      * @var string|null check that item is read-only
      */
     public $readOnlyAttribute;
+
+    /**
+     * @var string|Closure cell content template
+     */
+    public $template = '{input}';
 
     /**
      * @inheritdoc
@@ -96,17 +101,17 @@ class TextInputColumn extends Column
      */
     public function getInputName($model, $index, $attribute = null)
     {
-        if ($this->basename === null) {
-            $name = $model->formName();
-        } else {
-            $name = $this->basename;
-        }
-
         if ($attribute === null) {
             $attribute = $this->attribute;
         }
 
-        return $name . "[{$index}][{$attribute}]";
+        if ($this->basename === null) {
+            $name = Html::getInputName($model, $attribute);
+        } else {
+            $name = $this->basename . "[{$index}][{$attribute}]";
+        }
+
+        return $name;
     }
 
     /**
@@ -137,7 +142,17 @@ class TextInputColumn extends Column
     protected function renderDataCellContent($model, $key, $index)
     {
         if ($this->content === null) {
-            return $this->renderInput($model, $key, $index);
+            $parts = [
+                '{input}' => $this->renderInput($model, $key, $index),
+            ];
+
+            if ($this->template instanceof Closure) {
+                $template = call_user_func($this->template, $model, $key, $index, $this);
+            } else {
+                $template = $this->template;
+            }
+
+            return strtr($template, $parts);
         } else {
             return parent::renderDataCellContent($model, $key, $index);
         }
