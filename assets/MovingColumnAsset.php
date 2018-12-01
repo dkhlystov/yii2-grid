@@ -8,11 +8,11 @@ class MovingColumnAsset extends AssetBundle
 {
 
     public $css = [
-        'movingcolumn' . (YII_DEBUG ? '' : '.min') . '.css',
+        'movingcolumn.css',
     ];
 
     public $js = [
-        'movingcolumn' . (YII_DEBUG ? '' : '.min') . '.js',
+        'movingcolumn.js',
     ];
 
     public $depends = [

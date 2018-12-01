@@ -8,7 +8,7 @@ class GridViewAsset extends AssetBundle
 {
 
     public $css = [
-        'gridview' . (YII_DEBUG ? '' : '.min') . '.css',
+        'gridview.css',
     ];
 
     public function init()
