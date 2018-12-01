@@ -18,7 +18,6 @@ function moveStart(e, $tr) {
 
     // Handler
     $handler = $('<div></div>')
-        // .css({'background-color': '#fff', 'position': 'absolute', 'top': o.top, 'left': o.left, 'width': $tr.outerWidth(), 'height': $tr.outerHeight(), 'overflow': 'hidden'})
         .css({'background-color': '#fff', 'position': 'absolute', 'top': top, 'left': left, 'width': $tr.outerWidth(), 'height': $tr.outerHeight(), 'overflow': 'hidden'})
         .append($tr.closest('table').clone().css({'margin-top': to.top - o.top}))
         .data({
